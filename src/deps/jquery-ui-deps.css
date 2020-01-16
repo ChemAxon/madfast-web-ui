@@ -1,0 +1,10 @@
+/* Fix jqeury-ui touch punch on some browsers.
+   For details see
+        https://github.com/furf/jquery-ui-touch-punch/issues/61
+        https://github.com/paambaati/jquery-ui-touch-punch
+        https://github.com/furf/jquery-ui-touch-punch/issues/239
+ */
+.ui-draggable, .simsearch-ct {
+    -ms-touch-action: none;
+    touch-action: none;
+}

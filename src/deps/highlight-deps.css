@@ -1,0 +1,7 @@
+/*
+ * Modifications for highlight.js color scheme
+ */
+
+.hljs-tag {
+    background: none !important;
+}

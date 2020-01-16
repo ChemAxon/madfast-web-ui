@@ -1,0 +1,56 @@
+html, body {
+    height: 100%;
+}
+
+body.very-compact {
+    font-size: 9px;
+    line-height: 1;
+}
+
+body.compact {
+    font-size: 11px;
+    line-height: 1;
+}
+
+.modal-dialog {
+    font-size: 13px;
+    line-height: 1.2;
+}
+
+body.scrollable {
+    /* see http://stackoverflow.com/questions/12582555/always-show-browser-scrollbar-to-prevent-page-jumping */
+    /* TODO: fix right scrollbar on page when modal is open */
+    overflow-y: scroll !important;
+
+}
+
+/* See https://stackoverflow.com/questions/10085723/twitter-bootstrap-add-top-space-between-rows */
+.top5 {
+    margin-top: 5px;
+}
+
+.top10 {
+    margin-top: 10px;
+}
+
+.label-spaced {
+    margin-right: 5px;
+
+    /* See https://drupal.stackexchange.com/a/30513 */
+    display: inline-block;
+}
+
+
+.badge-spaced {
+    margin-right: 5px;
+}
+
+.label-larger {
+    font-size: 100%;
+    margin-bottom: 2px;
+}
+
+
+.list-group-item.disabled.bordered {
+    box-shadow: inset 0px 0px 3px 2px #337ab7;
+}
