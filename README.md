@@ -24,7 +24,8 @@ npm install
 npm run build
 ````
 
-And open file `index.html` in a browser.
+And open file `index.html` in a browser. To launch a MadFast REST server locally follow its 
+[getting started guide](https://disco.chemaxon.com/products/madfast/latest/doc/getting-started-guide.html).
 
 
 Repo structure
