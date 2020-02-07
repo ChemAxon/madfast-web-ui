@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+
+  <!-- Workaround for Font Awesome loading -->
+  <!-- Expect problems when exposing MadFast on a non-root URI through a reverse proxy -->
+  <!-- See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base -->
+  <base href="../"> 
+  <!-- End of workaround -->
+
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="examples/img/mfss-32.png" type="image/x-icon" />
+
+  <title>MadFast Web UI client library - Async search demo</title>
+
+  <!-- Include the packed limited Web UI facade -->
+  <script src="dist/js-client-limited.bundle.js"></script>
+
+  <!-- Page logic is in a separate script file. Note that it is not compiled, so no ES6 features are used -->
+  <script src="examples/js/02-async-search-demo.js"></script>
+    
+  <style>
+      /* In this example used for additional descriptions */
+      .details {
+          margin-top: 5px;
+          margin-bottom: 10px;
+          color: #999;
+      }
+  </style>
+</head>
+
+<!-- Page structure is defined here; interactions are implemented in the separate page logic script -->
+<!-- Page structure is static and Bootstrap based -->
+<body><div class="container" role="main">
+  <h1>Welcome</h1>
+  <p>This is MadFast Web UI - aysnc search demo. Feel free to check page source!</p>
+
+  <div class='page-header'>
+    <h1>Inputs / settings for search</h1>
+  </div>
+  <br/>
+
+  <!-- Using bootstrap's grid system, see https://getbootstrap.com/docs/3.3/css/#grid -->
+  <!-- Using bootstrap's forms, see https://getbootstrap.com/docs/3.3/css/#forms -->
+  <div class='row'>
+
+    <!-- Input for the MadFast server URL -->
+    <div class='col-md-6'>    
+      <label>Target MadFast REST API URL:</label>
+      <div class="input-group">
+        <input id='rest-api-url-input' type="text" class="form-control" placeholder="MadFast embedded server URL">
+        <span class="input-group-btn">
+          <button id='set-rest-api-url-button' class="btn btn-default" type="button">Set</button>
+        </span>
+        
+      </div>
+      <div class='details'>Root URL of the MadFast embedded server to use for search requests. Since this example page 
+          is from a different origin, appropriate Cross-Origin Resource Sharing headers must be set on the server. See
+          <a href='https://disco.chemaxon.com/products/madfast/latest/doc/rest-api-example.html'>documentation</a> for
+          details.
+      </div>
+    </div>
+
+
+    <!-- Input for the target descriptor (fingerprint) to search -->
+    <div class='col-md-6'>    
+      <label>Descriptor (fingerprint) to search:</label>
+      <div class="input-group">
+        <input id='descriptors-to-search-input' type="text" class="form-control" placeholder="Update target">
+        <span class="input-group-btn">
+          <button id='set-descriptors-to-search-button' class="btn btn-default" type="button">Set</button>
+        </span>
+      </div>
+      <div class='details'>
+        Path of <a href='https://disco.chemaxon.com/products/madfast/latest/doc/enunciate/resource_DescriptorsResource.html'>
+        descriptors REST resource</a> (fingerprints) to search on the server.
+      </div>
+    </div>
+  </div>   
+
+  <br/>
+
+  <div class='row'>
+
+    <!-- Input for the query structure -->
+    <div class='col-md-12'>    
+      <label for='restapiurl'>Query structure:</label>
+      <div class="input-group">
+        <input id='structure-source-input' type="text" class="form-control" placeholder="SMILES">
+        <span class="input-group-btn">
+          <button id='start-mss-button' class="btn btn-primary" type="button">Most similars</button>
+        </span>
+        <span class="input-group-btn">
+          <button id='start-dist-button' class="btn btn-primary" type="button">Distribution</button>
+        </span>
+      </div>
+      <div class='details'>
+        Query structure source to use for most similar structures search and dissimilarity distribution calculation. 
+        Note that this example uses the same descriptor context / handle functions for both search types. Try to enter
+        an invalid SMILES string to force event handler invocation.
+      </div>
+    </div>
+  </div>
+
+    
+  <div class='page-header'>
+    <h1>Results</h1>
+  </div>
+  
+  The search status / result is displayed here. In a typical integration these are bound to rich(er) user interface 
+  components. 
+  <div class='details'>
+    State transitions are initialized from callbacks and event handlers: searching state set on appropriate button
+    <code>onClick</code> event handlers. Further states (progress, results, error) are set from appropriate callbacks
+    invoked by the search context facade. In the current demo the contents of the <code>div</code> element below is
+    removed and re-built on each state transition.
+  </div>
+  
+  <!-- The "mock" user interface to present status and results -->
+  <!-- see https://getbootstrap.com/docs/3.3/components/#jumbotron -->
+  <div class='jumbotron' id='results-div'>
+      <!-- Content will be set by the page logic depending on status -->
+  </div>
+
+  <div class='page-header'>
+    <h1>Under the hood</h1>
+  </div>
+  
+  This table illustrates the interactions with the search facade and other components. 
+    
+  <button type="button" class='btn btn-danger btn-xs pull-right' id='empty-table-button'>Empty table</button>
+    
+  <div class='details'>
+    Rows are added to this table by method <code>addToLogTable()</code> in the page logic. Stack
+    trace of this method invocation are always recorded and available (not supported in Internet Explorer ). When an
+    optional data object is passed then it can be viewed as "stringified" JSONs. Note that data is also logged to the
+    JavaScript console.
+  </div>
+    
+  <!-- Parts of the page logic (callbacks, event handlers) will add messages to this table -->
+  <!-- Parameters for the events and invocation stack traces can be displayed in a modal dialog -->
+  <table class='table' id='log-table'>
+    <thead>
+      <tr>
+        <th>Event</th>
+        <th>Description</th>
+        <th>Info</th>
+        <th>Stack</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- rows are added dynamically by the page logic -->            
+    </tbody>
+  </table>
+    
+</div>
+
+
+<!-- Define a bootstrap modal dialog for displaying data -->
+<!-- Title and content is set before displaying the dialog -->
+<!-- See https://getbootstrap.com/docs/3.3/javascript/#modals -->
+<div class="modal fade" tabindex="-1" role="dialog" id='data-display-modal'>
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id='data-display-modal-title'>Modal title</h4>
+      </div>
+      <div class="modal-body">
+          <pre><code id='data-display-modal-content'>Raw data</code></pre>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
+

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+
+    <!-- Workaround for Font Awesome loading -->
+    <!-- Expect problems when exposing MadFast on a non-root URI through a reverse proxy -->
+    <!-- See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base -->
+    <base href="../"> 
+    <!-- End of workaround -->
+
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="examples/img/mfss-32.png" type="image/x-icon" />
+
+    <title>MadFast Web UI client library - Hello World example</title>
+
+    <!-- Include the packed limited Web UI facade -->
+    <script src="dist/js-client-limited.bundle.js"></script>
+
+    <!-- Page logic is inline. In a typical applycation page logic is defined in a separate -->
+    <!-- javascript file or compiled into the application bundle. -->
+    <script>
+        // Get MadFast WebUI client library
+        var M = window['EXPERIMENTAL-MADFAST-WEBUI-LIMITED'];
+
+        console.log('MadFast WebUI limited client library facade:', M);
+
+        // jQuery shipped in WebUI, acquire it
+        // note that jQuery is in provided config of the WebPack build; it is available in the global scope. 
+        // This variable declaration ephasizes that jQuery comes as a 3rd party dependency of the JS client
+        // facade
+        var $ = M.$;
+
+        // This is a Web UI component contained in this repository; it displays messages on top of the window
+        var topmsg = M.ui.topmsg;
+
+        $(function() {
+
+            // Demonstrate that jQuery works by changing a text on the page
+            $('span#a-span-to-set').text('THIS WAS SET USING JQUERY');
+
+            // Bind event handlers to buttons on the page
+            $('button#show-info-button').on('click', function() { topmsg.topInfo('Info message shown.'); });
+            $('button#show-error-button').on('click', function() { topmsg.topErr('Error message shown.'); });
+
+            // Finally displays a message
+            topmsg.topInfo('WebUI limited client library works!');
+        });
+
+       
+    </script>
+</head>
+<body>
+    <h1>Welcome</h1>
+    <p>This is MadFast Web UI - limited JS client "Hello, World!" demo page. Feel free to check the page source!</p>
+    <p>By importing the client facade bundle (<code>dist/js-client-limited.bundle.js</code>):
+    <ul>
+        <li>Default styles (like fonts, <code>&lt;code&gt;</code> formatting, etc) are installed.</li>
+        <li>Font-awesome library (version 4.7.0) is installed with custom icons like <code>fa fa-bars</code> 
+            (see <a href='https://fontawesome.com/v4.7.0/icon/bars'>reference</a>): <i class= 'fa fa-bars'></i> 
+            (<code>fa-bars</code> icon is displayed only when font-awesome is loaded.)
+        </li>
+        <li>jQuery is loaded <span id='a-span-to-set'>CONTENTS TO BE SET</span>.</li>
+        <li><a href='https://getbootstrap.com/docs/3.3/'>Bootstrap</a> (version 3.3.7) is loaded. 
+            <p class='bg-success'>
+                <a href='https://getbootstrap.com/docs/3.3/css/#helper-classes-backgrounds'>Contextual background</a> 
+                class used from Bootstrap.
+            </p>
+        </li>
+    </ul>
+    <p>Using the limited JS client library facade some functionalities of the MadFast WebUI are also available:</p>
+    <ul>
+        <li><code>ui.topmsg</code> displays notifications.<br/>
+            <button class='btn btn-default' id='show-info-button' type='submit'>Show info</button>
+            <button class='btn btn-default' id='show-error-button' type='submit'>Show error</button>
+        </li>
+    </ul>
+    <p>MadFast REST API client functionalities are demonstrated on separate pages:</p>
+    <ul>
+        <li><a href='examples/02-async-search-demo.html'>Async search demo</a> illustrates the usage of 
+            <code>api-client/similarity-search-context</code> to launch searches against a MadFast server.
+        </li>
+    </ul>
+</body>
+</html>
+
