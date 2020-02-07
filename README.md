@@ -12,6 +12,11 @@ this subset compilable. The supplied examples (in `examples/`) exercise these fu
 Getting started
 ---------------
 
+Check live demos at <https://chemaxon.github.io/madfast-web-ui/>.
+
+To build the limited 
+[Web UI JS client library](https://disco.chemaxon.com/products/madfast/latest/doc/using-webui-js-library.html):
+
 ```` bash
 git clone https://github.com/ChemAxon/madfast-web-ui
 cd madfast-web-ui
@@ -19,14 +24,16 @@ npm install
 npm run build
 ````
 
+And open file `index.html` in a browser.
+
+
 Repo structure
 --------------
 
- - `dist/`: Directory for compiled code and assets.
+ - `dist/`: Directory for compiled code and assets. 
  - `examples/`: Example pages and code for this project. The pages depend on the contents of `dist/` and the example 
    javascript codes are not compiled, they are ES5 compatible.
  - `src/`: Subset of MadFast Web UI sources. They are compiled using WebPack.
-
 
 
 Notes, limitations, plans
@@ -50,6 +57,6 @@ Notes, limitations, plans
    Web UI. In the future relying on D3 is preferred.
 
  - Suggestions, questions and feedbacks are welcome. Feel free to contact us at 
-   [madfast-support@chemaxon.com](mailto:madfast-support@chemaxon.com?subject=Question regarding https://github.com/ChemAxon/madfast-web-ui).
+   [madfast-support@chemaxon.com](mailto:madfast-support@chemaxon.com?subject=Question%20regarding%20https://github.com/ChemAxon/madfast-web-ui).
 
 
