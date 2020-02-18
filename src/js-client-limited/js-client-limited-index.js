@@ -34,7 +34,7 @@ import createDescCtx from '../api-client/similarity-search-context.js';
 // Various UI components
 import * as uicommon from '../ui/ui-common.js';
 import * as topmsg from '../ui/ui-topmsg.js';
-
+import * as progress from '../landing/progress.js';
 
 var facade = {
     // lodash with some custom extensions, see https://lodash.com/
@@ -56,6 +56,9 @@ var facade = {
         network: network,
         createAsyncClient: createAsyncClient,
         createDescCtx: createDescCtx
+    },
+    landing: {
+        progress: progress
     },
     ui: {
         topmsg: topmsg,
