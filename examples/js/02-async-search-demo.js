@@ -14,6 +14,7 @@
 var M = window['EXPERIMENTAL-MADFAST-WEBUI-LIMITED'];
 console.log('MadFast WebUI limited client library facade:', M);
 
+// Get 3rd party deps and WebUI components from the client facade
 var d3 = M.d3;
 
 // Extended lodash
@@ -21,7 +22,7 @@ var _ = M._;
 
 var createDescCtx = M.apiclient.createDescCtx;
 var dataaccess = M.apiclient.dataaccess;
-
+var progress = M.landing.progress;
 
 // D3 selection of page components
 // set in initPage()
@@ -47,11 +48,16 @@ function setUiToStarted(t) {
 /**
  * Display progress.
  * 
+ * This example uses multiple approaches to extract and display progress information.
+ * 
  * @param p Progress descriptor
  */
 
 function setUiToProgress(p) {
+    // Empty results area
     d3.select('#results-div').selectAll('*').remove();
+    
+    // Manually compose textual representation from progress descriptor
     d3.select('#results-div').append('h3').text('working');
     var t = 'Working; ' + _.formatSi(p.worked) + ' ';
     if (p.totalWork) {
@@ -59,6 +65,17 @@ function setUiToProgress(p) {
     }
     t += 'in ' + _.formatTime(p.runningDurationMs);
     d3.select('#results-div').append('span').text(t);
+    
+    // Use progress facade to represent progress descriptor
+    var pf = progress.ofTask(p);
+    
+    // Visual progress bar
+    var pdiv = d3.select('#results-div').append('div');
+    pf.appendProgressBarToD3(pdiv);
+    
+    // Textual representation
+    d3.select('#results-div').append('span').text(pf.getProgressString());
+    
     
 }
 
@@ -114,7 +131,7 @@ function setUiToMostSimilars(d) {
  * 
  * @param o Result object
 */
-function success(o) {
+function onSuccess(o) {
     addToLogTable('green', 'Success handler', 'Operation finished, results are received from the search context', 'results', o);
     
     // check the result type
@@ -136,7 +153,7 @@ function success(o) {
  * 
  * @param o Progress state.
  */
-function progress(o) {
+function onProgress(o) {
     addToLogTable('yellow', 'Progress handler', 'Progress update received through the search context.', 'progress', o);
     setUiToProgress(o);
 }
@@ -148,7 +165,7 @@ function progress(o) {
  * 
  * @param o Error descriptor
  */
-function error(o) {
+function onError(o) {
     addToLogTable('red', 'Error handler', 'Operation failed. Error handler invoked by the search context.', 'error', o);
     setUiToError(o);
 }
@@ -167,9 +184,9 @@ function updateSearchContext() {
     var opts = {
         async : true,
         desc : desc,
-        success : success,
-        progress : progress,
-        error : error
+        success : onSuccess,
+        progress : onProgress,
+        error : onError
         
     };
     // workaround to display these fields in debug table. By adding toJSON() methods these function fields 
