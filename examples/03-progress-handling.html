@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+
+  <!-- Workaround for Font Awesome loading -->
+  <!-- Expect problems when exposing MadFast on a non-root URI through a reverse proxy -->
+  <!-- See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base -->
+  <base href="../"> 
+  <!-- End of workaround -->
+
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="examples/img/mfss-32.png" type="image/x-icon" />
+
+  <title>MadFast Web UI client library - Progress visualization</title>
+
+  <!-- Include the packed limited Web UI facade -->
+  <script src="dist/js-client-limited.bundle.js"></script>
+
+  <!-- Page logic is in a separate script file. Note that it is not compiled, so no ES6 features are used -->
+  <script src="examples/js/03-progress-handling.js"></script>
+    
+  <style>
+      /* In this example used for additional descriptions */
+      .details {
+          margin-top: 5px;
+          margin-bottom: 10px;
+          color: #999;
+      }
+  </style>
+</head>
+
+<!-- Page structure is defined here; interactions are implemented in the separate page logic script -->
+<!-- Page structure is static and Bootstrap based -->
+<body><div class="container" role="main">
+  <h1>Welcome</h1>
+  <p>This is MadFast Web UI - async task progress state visualization. Feel free to check page source!</p>
+
+  <div class='page-header'>
+    <h1>Predefined states</h1>
+  </div>
+  
+  <p>Fill the DTO input area with predefined contents representing typical states.</p>
+  
+  
+
+  <div class='row'>
+
+    <!-- Input for the query structure -->
+    <div class='col-md-12'>    
+       
+        <button type="button" class='btn btn-normal' id='button-running-1'>Running 1</button>
+        <button type="button" class='btn btn-normal' id='button-running-2'>Running 2</button>
+        <button type="button" class='btn btn-normal' id='button-not-yet-started'>Not yet started</button>
+        <button type="button" class='btn btn-normal' id='button-finished-1'>Finished 1</button>
+        <button type="button" class='btn btn-normal' id='button-finished-2'>Finished 2</button>
+    </div>
+  </div>
+
+
+  <div class='page-header'>
+    <h1>Status DTO</h1>
+  </div>
+  
+  <p>JSON source of the task status DTO. Visual representations below redrawn on every change.</p>
+  
+  
+
+  <div class='row'>
+
+    <!-- Input for the query structure -->
+    <div class='col-md-12'>    
+        <textarea class='form-control' id='dtojson' rows='10'></textarea>
+       
+        
+    </div>
+  </div>
+
+  
+  <div class='page-header'>
+    <h1>Visual representations</h1>
+  </div>
+  
+  <p>Modify JSON source above or update it with a predefined content.</p>
+
+  <div class='row'>
+
+    <!-- Input for the query structure -->
+    <div class='col-md-12'>    
+        <label>Progress bar:</label>
+        <div id='progressbar'></div>
+       
+        <label>Status icon:</label>
+        <div id='statusicon'></div>
+        
+        <label>Results from helper methods:</label>
+        <div><pre id='message'></pre></div>
+        
+        <div class='details'>Various textual representations or error messages are displayed.</div>
+      
+    </div>
+  </div>
+  
+  
+  
+  
+  
+
+</div></body>
+</html>
+
