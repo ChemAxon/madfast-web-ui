@@ -30,9 +30,16 @@
         // This variable declaration ephasizes that jQuery comes as a 3rd party dependency of the JS client
         // facade
         var $ = M.$;
+        
+        // D3 shipped in WebUI, acquire it
+        var d3 = M.d3;
 
         // This is a Web UI component contained in this repository; it displays messages on top of the window
         var topmsg = M.ui.topmsg;
+        
+        // This is a Web UI component contained in this repository; it provides helper methods to visualize 
+        // async task state / progress
+        var progress = M.landing.progress;
 
         $(function() {
 
@@ -43,6 +50,21 @@
             $('button#show-info-button').on('click', function() { topmsg.topInfo('Info message shown.'); });
             $('button#show-error-button').on('click', function() { topmsg.topErr('Error message shown.'); });
 
+
+            // Place progress bar into the appropriate div
+            progress.ofTask({
+                id : 'task_id',
+                name : 'Task human readable name',
+                totalWork : 1234,
+                workUnit : 'thing',
+                worked : 567,
+                done : false,
+                startTimeMs : 12345678,
+                runningDurationMs : 2567
+            }).appendProgressBarToD3(
+                d3.select('#for-progress-bar')
+            );
+    
             // Finally displays a message
             topmsg.topInfo('WebUI limited client library works!');
         });
@@ -74,11 +96,17 @@
             <button class='btn btn-default' id='show-info-button' type='submit'>Show info</button>
             <button class='btn btn-default' id='show-error-button' type='submit'>Show error</button>
         </li>
+        <li><code>landing.progress</code> helps to visualize async task state / progress:<br>
+            <div id='for-progress-bar'></div>
+        </li>
     </ul>
     <p>MadFast REST API client functionalities are demonstrated on separate pages:</p>
     <ul>
         <li><a href='examples/02-async-search-demo.html'>Async search demo</a> illustrates the usage of 
             <code>api-client/similarity-search-context</code> to launch searches against a MadFast server.
+        </li>
+        <li><a href='examples/03-progress-handling.html'>Progress handling demo</a> illustrates the usage of 
+            <code>landing/progress</code> to visualize async task state / progress.
         </li>
     </ul>
 </body>
