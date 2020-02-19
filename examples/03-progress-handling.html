@@ -27,6 +27,10 @@
           margin-bottom: 10px;
           color: #999;
       }
+      
+      .monospaced {
+          font-family: Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
+      }
   </style>
 </head>
 
@@ -76,9 +80,8 @@
 
     <!-- Input for the query structure -->
     <div class='col-md-12'>    
-        <textarea class='form-control' id='dtojson' rows='10'></textarea>
-       
-        
+        <!-- See https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/spellcheck -->
+        <textarea class='form-control monospaced' id='dtojson' rows='10' spellcheck='false'></textarea>
     </div>
   </div>
 
